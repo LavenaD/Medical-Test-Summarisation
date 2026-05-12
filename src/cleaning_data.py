@@ -20,7 +20,7 @@ class CleaningData():
         text = re.sub(r"\s+", " ", text).strip()    
         return text
 
-    def cleaning_data(self, df)-> pd.DataFrame:
+    def clean(self, df)-> pd.DataFrame:
         try:
             if df.empty:
                 print("The input DataFrame is empty. No data to clean.")

@@ -59,6 +59,7 @@ class Train():
         joblib.dump(label_encoder, os.path.join(output_directory_path, "label_encoder.pkl"))
   
         return pipeline
+    
     # def run_predictions(self):
         
     #     # 9. Predict on new text

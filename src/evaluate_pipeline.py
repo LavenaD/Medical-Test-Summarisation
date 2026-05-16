@@ -1,5 +1,4 @@
 import os
-from turtle import pd
 
 from sklearn.metrics import classification_report
 import evaluate_pipeline

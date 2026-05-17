@@ -78,8 +78,8 @@ class TrainT5Small:
             save_strategy="epoch"
         )
         # Apply tokenization to the datasets
-        tokenized_train_dataset = train_dataset.map(self.tokenize_function, batched=True, remove_columns=[self.TEXT_COL])
-        tokenized_eval_dataset = eval_dataset.map(self.tokenize_function, batched=True, remove_columns=[self.TEXT_COL])
+        tokenized_train_dataset = train_dataset.map(self.tokenize_function, batched=True, remove_columns=[config.TEXT_COL])
+        tokenized_eval_dataset = eval_dataset.map(self.tokenize_function, batched=True, remove_columns=[config.TEXT_COL])
 
         # Make sure the 'labels' column is correctly set for training
         tokenized_train_dataset.set_format("torch", columns=["input_ids", "attention_mask", "labels"])
@@ -119,6 +119,7 @@ if __name__ == "__main__":
     try:
         input_folder_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data\\raw").replace("\\", "/")
         print(f"Input folder path: {input_folder_path}")
+        print(config.TEXT_COL)
 
         data_processing = data_processing.DataProcessing()
         df = data_processing.extract(input_folder_path, max_rows_per_outputfile=100)

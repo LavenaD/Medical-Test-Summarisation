@@ -17,7 +17,7 @@ import evaluate_trainmodel_v2
 
 class TrainT5Small:
     def __init__(self):
-        self.model_name = "google/flan-t5-small"
+        self.model_name = config.MODEL_NAME
         self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
         self.model = AutoModelForSeq2SeqLM.from_pretrained(self.model_name)
 
@@ -98,7 +98,7 @@ class TrainT5Small:
 
         # Set the training arguments - Optimized for CPU
         training_args = TrainingArguments(
-            output_dir=config.MODEL_DIRECTORY_PATH,
+            output_dir=os.path.join(config.MODEL_DIRECTORY_PATH, "medical_t5_v1"),
             per_device_train_batch_size=1,
             per_device_eval_batch_size=1,
             num_train_epochs=4,
@@ -127,8 +127,8 @@ class TrainT5Small:
         # return trainer
 
         # # 8. Save the model
-        self.model.save_pretrained(config.MODEL_DIRECTORY_PATH + "/" + "medical_summarizer_peft")
-        self.tokenizer.save_pretrained(config.MODEL_DIRECTORY_PATH + "/" + "medical_summarizer_peft")
+        self.model.save_pretrained(config.MODEL_DIRECTORY_PATH + "/" + "medical_t5_v1")
+        self.tokenizer.save_pretrained(config.MODEL_DIRECTORY_PATH + "/" + "medical_t5_v1")
 
 # folder_to_compress = "/content/medical_model/compressed-artifacts-g5/medical_summarizer_peft"
 # output_zip_name = "medical_summarizer_model_g5.zip"

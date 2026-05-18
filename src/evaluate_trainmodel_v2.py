@@ -4,6 +4,7 @@ import torch
 import evaluate
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 from peft import PeftModel
+import config
 
 from sklearn.metrics import classification_report
 
@@ -15,13 +16,10 @@ from IPython.display import display
 def run_evaluation_job():
     
     # load base model
-    base_model = AutoModelForSeq2SeqLM.from_pretrained("google/flan-t5-small")
+    base_model = AutoModelForSeq2SeqLM.from_pretrained(config.MODEL_NAME)
 
-    # Hugging Face repo
-    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    output_directory_path = os.path.join(base_dir, "models", "compressed-artifacts-google")
-    
-    model_path = os.path.join(output_directory_path, "medical_summarizer_peft")
+    # Hugging Face repo    
+    model_path = os.path.join(config.MODEL_DIRECTORY_PATH, "medical_t5_v1")
     # attach LoRA adapter
     model = PeftModel.from_pretrained(base_model, model_path)
 
@@ -32,10 +30,8 @@ def run_evaluation_job():
     device = torch.device("cpu")
     model.to(device)
 
-    # print(datetime.datetime.now(), "Model moved to device for job:", job_id)
-
     # load data
-    csv_path = os.path.join(base_dir, "data", "processed", "test_data.csv")
+    csv_path = os.path.join(config.DATA_DIRECTORY_PATH, "test_data.csv")
     test_df = pd.read_csv(csv_path)
 
     inputs = test_df["findings"].tolist()
@@ -134,7 +130,7 @@ def run_evaluation_job():
 
     display(results.head(10))
 
-    results.to_csv(os.path.join(base_dir, "data", "processed", "evaluation_results.csv"), index=False)
+    results.to_csv(os.path.join(config.DATA_DIRECTORY_PATH, "evaluation_results.csv"), index=False)
 
     return results
 

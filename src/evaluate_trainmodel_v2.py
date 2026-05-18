@@ -19,7 +19,7 @@ def run_evaluation_job():
 
     # Hugging Face repo
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    output_directory_path = os.path.join(base_dir, "models//compressed-artifacts-google").replace("\\", "/")
+    output_directory_path = os.path.join(base_dir, "models", "compressed-artifacts-google")
     
     model_path = os.path.join(output_directory_path, "medical_summarizer_peft")
     # attach LoRA adapter
@@ -133,6 +133,8 @@ def run_evaluation_job():
     plt.show()
 
     display(results.head(10))
+
+    results.to_csv(os.path.join(base_dir, "data", "processed", "evaluation_results.csv"), index=False)
 
     return results
 

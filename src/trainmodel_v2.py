@@ -39,9 +39,39 @@ class TrainT5Small:
                 truncation=True
             )
 
+    def tokenize_function_v2(self, df):
+        # When you use text_target= in the tokenizer, it creates a column named "labels" (not "impression"). 
+        # The Trainer expects this exact column name for seq2seq models
+        inputs = [
+            "summarize: " + str(text)
+            for text in  df[config.TEXT_COL] ]
+
+        model_inputs = self.tokenizer(
+            inputs,
+            max_length=config.MAX_INPUT_LENGTH,
+            truncation=True,
+            padding="max_length",
+            pad_to_multiple_of=8
+        )
+
+        outputs = [
+            str(text)
+            for text in  df[config.TARGET_COL] ]
+
+        labels = self.tokenizer(
+            text_target=outputs,
+            max_length=config.MAX_TARGET_LENGTH,
+            truncation=True,
+            padding="max_length",
+            pad_to_multiple_of=8
+        )
+
+        model_inputs["labels"] = labels["input_ids"]
+        return model_inputs
+
     def train(self, df):
-        df[config.TEXT_COL] = "Summarize this medical condition: " + df[config.TEXT_COL]
-        df['labels'] = df[config.TARGET_COL]
+        # df[config.TEXT_COL] = "Summarize this medical condition: " + df[config.TEXT_COL]
+        # df['labels'] = df[config.TARGET_COL]
 
         # Split the data into train and test
         train_df, test_df = train_test_split(df, test_size=0.3, random_state=42)
@@ -56,7 +86,7 @@ class TrainT5Small:
 
         # Use Lora to train the model
         lora_config = LoraConfig(
-            r=14,
+            r=16,
             lora_alpha=16,
             target_modules=["q", "v"],
             lora_dropout=0.1,
@@ -66,16 +96,17 @@ class TrainT5Small:
 
         self.model = get_peft_model(self.model, lora_config)
 
-        # Set the training arguments
+        # Set the training arguments - Optimized for CPU
         training_args = TrainingArguments(
-            output_dir="./medical_model",
+            output_dir=config.MODEL_DIRECTORY_PATH,
             per_device_train_batch_size=1,
             per_device_eval_batch_size=1,
-            num_train_epochs=config.NUM_EPOCHS,
-            learning_rate=config.LEARNING_RATE,
+            num_train_epochs=4,
+            learning_rate=8.8e-5,
             logging_steps=100,
             eval_strategy="epoch",
-            save_strategy="epoch"
+            save_strategy="epoch",
+            
         )
         # Apply tokenization to the datasets
         tokenized_train_dataset = train_dataset.map(self.tokenize_function, batched=True, remove_columns=[config.TEXT_COL])
@@ -127,6 +158,7 @@ if __name__ == "__main__":
 
         cleaned_df = data_processing.clean_data(df)
         print(f"Number of records after cleaning: {len(cleaned_df)}")
+        print(cleaned_df['impression'].value_counts().head(20))
 
         data_processing.write_csv_file(cleaned_df)
 

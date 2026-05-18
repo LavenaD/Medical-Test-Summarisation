@@ -172,8 +172,6 @@ cython_debug/
 # End of https://www.toptal.com/developers/gitignore/api/django
 
 
-data/processed/test_data.csv
-data/processed/train_data.csv
 models
 src/medical_model
 summarise

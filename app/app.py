@@ -1,6 +1,9 @@
 from flask import Flask, request, render_template_string
 import requests
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -29,8 +32,7 @@ def index():
     summary = None
     if request.method == "POST":
         medical_text = request.form["medical_text"]
-        print(os.getenv("API_URL"))
-        response = requests.post(f"{os.environ.get("API_URL")}/summarize", json={"medical_text": medical_text})
+        response = requests.post(f"{os.getenv("API_URL")}/summarize", json={"medical_text": medical_text})
         summary = response.json().get("summary")
         print("Summary Response:", response.json())
     return render_template_string(html, summary=summary)

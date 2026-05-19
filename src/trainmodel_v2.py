@@ -148,22 +148,22 @@ class TrainT5Small:
 
 if __name__ == "__main__":
     try:
-        input_folder_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data\\raw").replace("\\", "/")
-        print(f"Input folder path: {input_folder_path}")
-        print(config.TEXT_COL)
+        # input_folder_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data\\raw").replace("\\", "/")
+        # print(f"Input folder path: {input_folder_path}")
+        # print(config.TEXT_COL)
 
-        data_processing = data_processing.DataProcessing()
-        df = data_processing.extract(input_folder_path, max_rows_per_outputfile=100)
-        print(f"Number of records read: {len(df)}")
+        # data_processing = data_processing.DataProcessing()
+        # df = data_processing.extract(input_folder_path, max_rows_per_outputfile=100)
+        # print(f"Number of records read: {len(df)}")
 
-        cleaned_df = data_processing.clean_data(df)
-        print(f"Number of records after cleaning: {len(cleaned_df)}")
-        print(cleaned_df['impression'].value_counts().head(20))
+        # cleaned_df = data_processing.clean_data(df)
+        # print(f"Number of records after cleaning: {len(cleaned_df)}")
+        # print(cleaned_df['impression'].value_counts().head(20))
 
-        data_processing.write_csv_file(cleaned_df)
+        # data_processing.write_csv_file(cleaned_df)
 
-        trainer = TrainT5Small()
-        pipeline = trainer.train(cleaned_df)
+        # trainer = TrainT5Small()
+        # pipeline = trainer.train(cleaned_df)
 
         evaluation_results = evaluate_trainmodel_v2.run_evaluation_job()
         print(evaluation_results)

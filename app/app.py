@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template_string
 import requests
-base_url = "http://127.0.0.1:8000"
+import os
 
 app = Flask(__name__)
 
@@ -29,10 +29,11 @@ def index():
     summary = None
     if request.method == "POST":
         medical_text = request.form["medical_text"]
-        response = requests.post(f"{base_url}/summarize", json={"medical_text": medical_text})
+        print(os.getenv("API_URL"))
+        response = requests.post(f"{os.environ.get("API_URL")}/summarize", json={"medical_text": medical_text})
         summary = response.json().get("summary")
         print("Summary Response:", response.json())
     return render_template_string(html, summary=summary)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)

@@ -6,7 +6,7 @@ from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 from peft import PeftModel
 import config
 
-from sklearn.metrics import classification_report
+# from sklearn.metrics import classification_report
 
 import matplotlib.pyplot as plt
 
@@ -80,7 +80,8 @@ def run_evaluation_job():
 
         predictions.extend(batch_predictions)
 
-    # print(classification_report(y_test, y_pred, zero_division=0))
+    # y_test = pd.read_csv(os.path.join(config.BASE_DIR, "data", "processed", "test_data.csv"))["impression"]
+    # print(classification_report(y_test, predictions, zero_division=0))
 
     rouge = evaluate.load("rouge")
 

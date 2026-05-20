@@ -2,7 +2,7 @@ import os
 import torch
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 from peft import PeftModel
-import config
+import src.config
 
 def run_inference(medical_text):
     """
@@ -17,10 +17,10 @@ def run_inference(medical_text):
     """
     
     # Set model path
-    model_path = os.path.join(config.MODEL_DIRECTORY_PATH, "medical_t5_v1")
+    model_path = os.path.join(src.config.MODEL_DIRECTORY_PATH, "medical_t5_v1")
     
     # Load base model
-    base_model = AutoModelForSeq2SeqLM.from_pretrained(config.MODEL_NAME)
+    base_model = AutoModelForSeq2SeqLM.from_pretrained(src.config.MODEL_NAME)
     
     # Load LoRA adapter
     model = PeftModel.from_pretrained(base_model, model_path)

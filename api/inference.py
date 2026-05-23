@@ -3,6 +3,9 @@ import torch
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 from peft import PeftModel
 import src.config
+import logging
+
+logger = logging.getLogger(__name__)
 
 def run_inference(medical_text):
     """
@@ -18,15 +21,19 @@ def run_inference(medical_text):
     
     # Set model path
     model_path = os.path.join(src.config.MODEL_DIRECTORY_PATH, "medical_t5_v1")
+    logger.info(f"Loading model from path: {model_path}")
     
     # Load base model
     base_model = AutoModelForSeq2SeqLM.from_pretrained(src.config.MODEL_NAME)
+    logger.info(f"Base model loaded from: {src.config.MODEL_NAME}")
     
     # Load LoRA adapter
     model = PeftModel.from_pretrained(base_model, model_path)
+    logger.info(f"LoRA adapter loaded from: {model_path}")
     
     # Load tokenizer
     tokenizer = AutoTokenizer.from_pretrained(model_path)
+    logger.info(f"Tokenizer loaded from: {model_path}")
     
     # Set device
     device = torch.device("cpu")
@@ -48,7 +55,8 @@ def run_inference(medical_text):
         truncation=True,
         max_length=1024
     ).to(device)
-    
+    logger.info(f"Tokenization complete. Input IDs shape: {tokens['input_ids'].shape}")
+
     # Generate predictions
     with torch.no_grad():
         outputs = model.generate(
@@ -57,7 +65,7 @@ def run_inference(medical_text):
             num_beams=5,
             early_stopping=True
         )
-    
+    logger.info(f"Prediction complete. Output shape: {outputs.shape}")
     # Decode predictions
     batch_predictions = tokenizer.batch_decode(
         outputs,
@@ -65,6 +73,7 @@ def run_inference(medical_text):
     )
     
     predictions.extend(batch_predictions)
+    logger.info(f"Generated predictions: {predictions}")
     
     # Return single result if input was single text
     return predictions[0]

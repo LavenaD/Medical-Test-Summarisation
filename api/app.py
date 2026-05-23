@@ -2,6 +2,9 @@ import sys
 from pathlib import Path
 from fastapi import FastAPI
 from pydantic import BaseModel
+import logging
+
+logger = logging.getLogger(__name__)
 
 # Add src directory to Python path
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
@@ -19,6 +22,7 @@ def read_root():
 
 @app.post("/summarize")
 def summarize(request: SummaryRequest):  
+    logger.info(f"Received request to summarize medical text: {request.medical_text}")
     summary = run_inference(request.medical_text)
     return {
         "input": request.medical_text,

@@ -199,8 +199,8 @@ Expected ROUGE scores on test set:
 - ROUGE-L: 0.4-0.6
 
 ## Deployment Links
-The Flask UI is deployed at - https://medical-test-summarisation-1.onrender.com/
-The Fast API is deployed at - https://medical-test-summarisation.onrender.com/docs
+- The Flask UI is deployed at - https://medical-test-summarisation-1.onrender.com/
+- The Fast API is deployed at - https://medical-test-summarisation.onrender.com/docs
 
 ## Limitations
 - The Flan-T5 model has not been tested in real world applications.

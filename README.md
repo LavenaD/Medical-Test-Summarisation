@@ -122,33 +122,7 @@ This generates:
 - Summary length distribution plots
 - Comparison with reference summaries
 
-## API Endpoints
 
-### GET `/`
-Check API status
-```json
-{
-  "status": "API is running"
-}
-```
-
-### POST `/summarize`
-Generate medical summary
-
-**Request:**
-```json
-{
-  "medical_text": "medical findings text here"
-}
-```
-
-**Response:**
-```json
-{
-  "input": "medical findings text here",
-  "summary": "generated summary"
-}
-```
 
 ## Testing
 
@@ -202,12 +176,58 @@ Expected ROUGE scores on test set:
 - The Flask UI is deployed at - https://medical-test-summarisation-1.onrender.com/
 - The Fast API is deployed at - https://medical-test-summarisation.onrender.com/docs
 
+## API Endpoints
+
+### GET `/`
+Check API status
+```json
+{
+  "status": "API is running"
+}
+```
+
+### POST `/summarize`
+Generate medical summary
+
+**Request:**
+```json
+{
+  "medical_text": "medical findings text here"
+}
+```
+
+**Response:**
+```json
+{
+  "input": "medical findings text here",
+  "summary": "generated summary"
+}
+```
+## Example Request
+### POST `/summarize`
+Generate medical summary
+
+**Request:**
+```json
+{
+  "medical_text": "heart size is normal the lungs are clear no pneumothorax"
+}
+```
+
+**Response:**
+```json
+{
+  "input": "heart size is normal the lungs are clear no pneumothorax",
+  "summary": "no acute cardiopulmonary abnormality"
+}
+```
+
 ## Limitations
 - The Flan-T5 model has not been tested in real world applications.
 -The model is vulnerable to generating inappropriate content or replicating inherent biases
 
 ## Model Choice
-Common models that could be used for this summariasation task are BART, T5 and GPT. LLM like GPT can be fine tuned using prompting or RAG. This is a small project and can be run on a CPU so a Hugging face transformer model google/Flan-T5 seemed a good choice. This model was fine tuned to produce medical summaries.
+Common models that could be used for this summariasation task are BART, T5 and GPT. LLM like GPT can be fine tuned using prompting or RAG. This is a small project and can be run on a CPU so a Hugging face transformer model google/Flan-T5 seemed a good choice. This model was fine tuned using Lora to produce medical summaries.The other option was to use QLora.
 - The Flan-T5-small model has 77M parameters. It can be easily fine tuned and run on a CPU.
 
 ## LoRA Reasoning

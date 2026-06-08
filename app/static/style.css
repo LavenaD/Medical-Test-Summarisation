@@ -1,0 +1,132 @@
+/* :root {
+            --bg: #f8fafc;
+            --sidebar-dark: #0f172a;
+            --accent: #3b82f6;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        } */
+    :root {
+    --text: #6b6375;
+    --text-h: #08060d;
+    --bg: #fff;
+    --border: #e5e4e7;
+    --code-bg: #f4f3ec;
+    --accent: #aa3bff;
+    --accent-bg: rgba(170, 59, 255, 0.1);
+    --accent-border: rgba(170, 59, 255, 0.5);
+    --social-bg: rgba(244, 243, 236, 0.5);
+    --shadow:
+        rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+
+    --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+    --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+    --mono: ui-monospace, Consolas, monospace;
+
+    font: 18px/145% var(--sans);
+    letter-spacing: 0.18px;
+    color-scheme: light dark;
+    color: var(--text);
+    background: var(--bg);
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    @media (max-width: 1024px) {
+        font-size: 16px;
+    }
+    }
+    body {
+        background: var(--bg);
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+        margin: 0;
+    }
+
+    /* Responsive Layout Engine */
+    .wrapper { 
+        display: flex; 
+        flex-direction: column; /* Stacked by default (Mobile) */
+        min-height: 100vh; 
+    }
+
+    @media (min-width: 992px) {
+        .wrapper { flex-direction: row; height: 100vh; overflow: hidden; }
+        .sidebar { width: 30%; height: 100vh; }
+        .main { flex: 1; height: 100vh; overflow-y: auto; padding: 3rem; }
+    }
+
+    /* Sidebar Styling */
+    .sidebar {
+        background: var(--sidebar-dark);
+        color: white;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        border-bottom: 4px solid var(--accent);
+    }
+
+    @media (min-width: 992px) {
+        .sidebar { border-bottom: none; border-right: 1px solid rgba(255,255,255,0.1); }
+    }
+
+    /* Fixed Inline Header */
+    .sidebar-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 1.5rem;
+    }
+
+    .brand-icon { font-size: 1.8rem; color: var(--accent); }
+    .project-title { font-size: 1.25rem; font-weight: 800; margin: 0; white-space: nowrap; }
+
+    .tech-stack-grid { 
+        display: grid; 
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 10px; 
+        margin-top: 1rem; 
+    }
+
+    .tech-item { 
+        background: rgba(255,255,255,0.05); 
+        border-radius: 8px; 
+        padding: 8px 12px; 
+        font-size: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .tech-item i { color: var(--accent); width: 15px; }
+
+    /* Main Area (Stacked below on mobile) */
+    .main { padding: 1.5rem; }
+
+    .metric-card { 
+        background: white; 
+        padding: 8px 12px; 
+        border-radius: 10px; 
+        border: 1px solid #e2e8f0; 
+        text-align: center;
+        flex: 1;
+    }
+    .metric-card span { font-size: 0.6rem; color: #64748b; font-weight: 700; display: block; }
+    .metric-card strong { color: var(--accent); font-size: 0.9rem; }
+
+    .card-ui { 
+        background: white; 
+        border-radius: 16px; 
+        padding: 1.5rem; 
+        box-shadow: var(--card-shadow); 
+        border: 1px solid #e2e8f0; 
+        margin-bottom: 1rem; 
+    }
+
+    textarea { border: 1px solid #e2e8f0 !important; border-radius: 12px !important; font-size: 0.9rem; }
+    .btn-ai { background: var(--accent); color: white; border: none; padding: 12px 20px; border-radius: 12px; font-weight: 700; width: 100%; }
+    
+    @media (min-width: 768px) {
+        .btn-ai { width: auto; }
+    }
+
+    .output-viewport { background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 12px; padding: 15px; min-height: 60px; }
+    .api-block { background: #0f172a; color: #38bdf8; font-family: monospace; padding: 12px; border-radius: 10px; font-size: 0.75rem; word-break: break-all; }

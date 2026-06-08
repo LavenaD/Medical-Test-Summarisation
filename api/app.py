@@ -7,9 +7,9 @@ import logging
 logger = logging.getLogger(__name__)
 
 # Add src directory to Python path
-sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
+sys.path.insert(0, str(Path(__file__).parent / "src"))
 
-from inference import run_inference
+from .inference import run_inference
 
 app = FastAPI()
 

@@ -1,8 +1,10 @@
 import os
 import torch
+import sys
+from pathlib import Path
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 from peft import PeftModel
-import src.config
+from .src import config
 import logging
 
 logger = logging.getLogger(__name__)
@@ -20,12 +22,12 @@ def run_inference(medical_text):
     """
     
     # Set model path
-    model_path = os.path.join(src.config.MODEL_DIRECTORY_PATH, "medical_t5_v1")
+    model_path = os.path.join(config.MODEL_DIRECTORY_PATH, "medical_t5_v1")
     logger.info(f"Loading model from path: {model_path}")
     
     # Load base model
-    base_model = AutoModelForSeq2SeqLM.from_pretrained(src.config.MODEL_NAME)
-    logger.info(f"Base model loaded from: {src.config.MODEL_NAME}")
+    base_model = AutoModelForSeq2SeqLM.from_pretrained(config.MODEL_NAME)
+    logger.info(f"Base model loaded from: {config.MODEL_NAME}")
     
     # Load LoRA adapter
     model = PeftModel.from_pretrained(base_model, model_path)
